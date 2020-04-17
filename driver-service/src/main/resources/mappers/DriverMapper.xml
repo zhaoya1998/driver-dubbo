@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhaoya.driver.dao.DriverDao">
+
+    <resultMap type="DriverCard" id="driverMapper">
+    	<id column="id" property="id"></id>
+    	<result column="province_id" property="provinceId"/>
+    	<result column="city_id" property="cityId"/>
+    	<result column="county_id" property="countyId"/>
+    	<result column="post_date" property="postDate"/>
+    	<result column="createtime" property="createtime"/>
+    	<result column="head_image" property="headImage"/>
+    	<result column="card_no" property="cardNo"/>
+    	<result column="name" property="name"/>
+    	<result column="gender" property="gender"/>
+    	<association property="province" column="province_id" select="selectArea"></association>
+    	<association property="city" column="city_id" select="selectArea"></association>
+    	<association property="county" column="county_id" select="selectArea"></association>
+    </resultMap>
+   
+    
+    
+	<select id="listAreadByPid" resultType="area">
+		select pid,id,cityname as name from city where pid=#{value} order by name
+	</select>
+	
+	<select id="selectArea" resultType="area">
+		select pid,id,cityname as name from city where id=#{value}
+	</select>
+	
+	<select id="list" resultMap="driverMapper">
+		select * from driver_card 
+		  <!-- <where>
+		    <if test="null != name and name!=''">
+		    and name like concat('%',#{value},'%')
+		    </if>
+		  </where> -->
+	</select>
+
+	<!-- int add(DriverCard driver); -->
+	<insert id="add">
+		insert into driver_card (card_no,name,gender,province_id,city_id,county_id,post_date,createtime,head_image)
+		    values(#{cardNo},#{name},#{gender},#{provinceId},#{cityId},#{countyId},#{postDate},now(),#{headImage})
+	</insert>
+
+	<!-- int update(DriverCard driver); -->
+	<update id="update">
+		update driver_card set card_no=#{cardNo},name=#{name},gender=#{gender},
+		province_id=#{provinceId},city_id=#{cityId},county_id=#{countyId},
+		post_date=#{postDate},createtime=now(),head_image=#{headImage}
+		where id=#{id}
+	</update>
+
+	<!-- DriverCard getByid(int id); -->
+	<select id="getByid" resultMap="driverMapper">
+		select * from driver_card 
+		  where id=#{value}
+	</select>
+	
+</mapper>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<script type="text/javascript" src="jquery/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+	function getMd5() {
+		var value = md5($("#input").val());
+		alert(value);
+		$("#output").html();
+	}
+</script>
+</head>
+<body>
+	<input id="input">
+	<div id="output"></div>
+	<button onclick="getMd5()">md5cdn</button>
+	
+</body>
+</html>
